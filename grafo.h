@@ -8,11 +8,11 @@ typedef int Peso;
 
 
 /*Arestas: */
-typedef struct str_aresta{
+typedef struct aux_aresta{
 	int vertice_destino;
 	Peso peso;
 	struct aux_aresta* prox;
-}Aresta;
+}Aux_Aresta, * Aresta;
 
 
 /*Grafo: */
@@ -20,4 +20,4 @@ typedef struct{
 	Aresta** listaAdj;
 	int numVertices;
 	int numArestas;
-}Grafo;
+}Aux_Grafo, * Grafo;
