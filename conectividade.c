@@ -1,23 +1,33 @@
 #include "grafo.h"
 #include <stdio.h>
+#include <string.h>
 
-#define CHUNK 1024
+#define LSIZ 128 
+#define RSIZ 10 
+
 
 int main(){
 	Grafo g1;
 	int num_vertices;
+	int i = 0;
+	int t = 0;
 	
-	char buf[CHUNK];
+    char linha[RSIZ][LSIZ];
 	FILE *file;
-	size_t nread;
-
-	file = fopen("entrada_teste.txt", "r");
-	if (file) {
-    while ((nread = fread(buf, 1, sizeof buf, file)) > 0)
-        fwrite(buf, 1, nread, stdout);
-    if (ferror(file)) {
-        /* deal with error */
+	
+	file = fopen("entrada.txt", "r");
+	while(fgets(linha[i], LSIZ, file)){
+		linha[i][strlen(linha[i]) - 1] = '\0';
+        i++;
+	}
+	
+	t = i;
+    for(i = 0; i < t; ++i)
+    {
+        printf(" %s\n", linha[i]);
     }
-    fclose(file);
-}
+    printf("\n");
+    return 0;
+	
+	
 }
