@@ -19,8 +19,7 @@ Grafo* iniciaGrafo(int nV, int nA){ //recebe número de nós
 }
 
 void adjacencia(Grafo* g, int v1, int v2, int peso){
-    g->matrix[v1][v2] = peso; //adiciona o peso da aresta entre v1 e v2
-    g->matrix[v2][v1] = peso;
+    g->matrix[v1][v2] = peso;
 }
 
 void exibe(Grafo* g){ //exibe no terminal todos os pesos, sendo os INT_MAX as arestas não existentes
@@ -28,7 +27,10 @@ void exibe(Grafo* g){ //exibe no terminal todos os pesos, sendo os INT_MAX as ar
     for(x=0; x<g->numVertice; x++){
         printf(" \n ");
         for(y=0; y<g->numVertice; y++){
-            printf ("%i\t ", g->matrix[x][y]);     
+		if(g->matrix[x][y] != -1){
+				printf("%d %d %d\n", x, y, g->matrix[x][y]);
+			}
+            //printf ("%i\t ", g->matrix[x][y]);     
         }
     }
 }
