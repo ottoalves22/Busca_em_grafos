@@ -9,3 +9,4 @@ typedef struct Grafo{
     int numAresta; 
     int matrix[100][100];
 }Grafo;
+

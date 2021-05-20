@@ -9,6 +9,8 @@ int visited[100];
 int main(){
 	FILE *file;
 	file = fopen("entrada.txt", "r");
+	FILE* file_out;
+	 file_out= fopen("saida.txt", "w");
    int j=0;
    int i;
    int string_auxiliar[200];
@@ -37,10 +39,13 @@ int main(){
     }
 	
 	printf("%d %d \n", g1->numVertice, g1->numAresta);
-	exibe(g1);
+	fprintf(file_out, "%d %d  \n", g1->numVertice, g1->numAresta);
+	exibe(g1, file_out);
 	printf("\nBP:\n");
+	fprintf(file_out, "\nBP:\n");
 	BP(g1, 0);
 	printf("\n\nCaminhos BP:\n");
+	fprintf(file_out, "\n\nCaminhos BP:\n");
 	
 	
     return 0;
