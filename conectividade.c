@@ -10,11 +10,11 @@ int main(){
 	FILE *file;
 	file = fopen("entrada.txt", "r");
 	FILE* file_out;
-	 file_out= fopen("saida.txt", "w");
-   int j=0;
-   int i;
-   int string_auxiliar[200];
-   if(file!=NULL){   
+    file_out= fopen("saida.txt", "w");
+    int j=0;
+    int i;
+    int string_auxiliar[200];
+    if(file!=NULL){
 	    fscanf(file, "%d", &i);
 		while(!feof(file)){  
             string_auxiliar[j] = i;
@@ -22,11 +22,10 @@ int main(){
 			fscanf (file, "%d", &i);
 			j++;      
 		}
-      fclose(file);
+        fclose(file);
    }
-   
    int num_vertices = string_auxiliar[0];
-	int num_arestas = string_auxiliar[1];
+   int num_arestas = string_auxiliar[1];
 	
 	for(int aux=0; aux<num_vertices; aux++){
 		visited[aux] = 0;
