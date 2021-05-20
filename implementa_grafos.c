@@ -20,16 +20,16 @@ Grafo* iniciaGrafo(int nV, int nA){ //recebe número de nós
 
 void adjacencia(Grafo* g, int v1, int v2, int peso){
     g->matrix[v1][v2] = peso;
-    g->matrix[v2][v1] = peso;
+    g->matrix[v2][v1] = 1616;
 }
 
 void exibe(Grafo* g){ //exibe no terminal todos os pesos, sendo os INT_MAX as arestas não existentes
     int x, y;
     for(x=0; x<g->numVertice; x++){
-        printf(" \n ");
+        printf("\n");
         for(y=0; y<g->numVertice; y++){
-		if(g->matrix[x][y] != -1){
-				printf("%d %d %d \n", x, y, g->matrix[x][y]);
+		if(g->matrix[x][y]!=-1 && g->matrix[x][y] != 1616){
+				printf("%d %d %d\n", x, y, g->matrix[x][y]);
 			}
             //printf ("%i\t ", g->matrix[x][y]);     
         }

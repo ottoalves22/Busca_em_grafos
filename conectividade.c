@@ -2,41 +2,56 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+
 int visited[100];
 
 
 int main(){
+	FILE *file;
+	file = fopen("entrada.txt", "r");
+   int j=0;
+   int i;
+   int string_auxiliar[200];
+   if(file!=NULL){   
+	    fscanf(file, "%d", &i);
+		while(!feof(file)){  
+            string_auxiliar[j] = i;
+			(file, "%d", &i);
+			fscanf (file, "%d", &i);
+			j++;      
+		}
+      fclose(file);
+   }
+   
+   int num_vertices = string_auxiliar[0];
+	int num_arestas = string_auxiliar[1];
 	
-	int num_vertices = 7;
-	int num_arestas = 8;
-	
-	for(int i=0; i<num_vertices; i++){
-		visited[i] = 0;
+	for(int aux=0; aux<num_vertices; aux++){
+		visited[aux] = 0;
 	}
-	
-	Grafo* g1 = iniciaGrafo(num_vertices, num_arestas);
-	adjacencia(g1, 5, 6, 1);
-	adjacencia(g1, 0, 2, 1);
-	adjacencia(g1, 0, 1, 4);
-	adjacencia(g1, 3, 5, 7);	
-	adjacencia(g1, 3, 4, 1);
-	adjacencia(g1, 1, 3, 1);
-	adjacencia(g1, 2, 3, 1);
-	adjacencia(g1, 4, 6, 1);
 
-	printf("\n %d %d \n", g1->numVertice, g1->numAresta);
-	exibe(g1);
+	Grafo* g1 = iniciaGrafo(num_vertices, num_arestas);
+
+    for(int y=2; y<j; y+=3){
+        adjacencia(g1, string_auxiliar[y], string_auxiliar[y+1], string_auxiliar[y+2]);
+    }
 	
+	printf("%d %d \n", g1->numVertice, g1->numAresta);
+	exibe(g1);
+	printf("\nBP:\n");
 	BP(g1, 0);
+	printf("\n\nCaminhos BP:\n");
 	
 	
     return 0;
 	
 }
 
+
+//busca em profundidade
 void BP(Grafo* g, int inicio){
 	int j;
-	printf(" %d-> ", inicio);
+	printf("%d ", inicio);
 	visited[inicio] = 1;
 	
 	for(j=0; j<g->numVertice; j++){
@@ -44,4 +59,13 @@ void BP(Grafo* g, int inicio){
 			BP(g, j);
 		}
 	}
+}
+
+
+//busca em largura
+void BL(Grafo* g, int inicio){
+	visited[inicio] = 1;
+	int arr_auxiliar[g->numVertice];
+	arr_auxiliar[inicio] = 1;
+	
 }
