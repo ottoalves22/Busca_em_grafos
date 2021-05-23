@@ -72,11 +72,12 @@ void pop(Lista ** l) {
 }
 
 
-void exibe_lista(Lista* l){
+void exibe_lista(Lista* l, FILE* file_out){
     Lista* atual = l;
     atual = atual->prox;
     while (atual != NULL) {
         printf("%d  ", atual->chave);
+        fprintf(file_out, "%d ", atual->chave);
         atual = atual->prox;
     }
 }

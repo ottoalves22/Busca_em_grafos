@@ -47,7 +47,7 @@ int main(){
 	exibe(g1, file_out);
 	printf("\nBP:\n");
 	fprintf(file_out, "\nBP:\n");
-	BP(g1, 0, l1);
+	BP(g1, 0, l1, file_out);
 	printf("\n\nCaminhos BP:\n");
 	fprintf(file_out, "\n\nCaminhos BP:");
 
@@ -56,7 +56,7 @@ int main(){
 		visited[aux] = 0;
 	}
 
-	passeioBP(g1, 0, l1);
+	passeioBP(g1, 0, l1, file_out);
 
     return 0;
 	
@@ -64,28 +64,30 @@ int main(){
 
 
 //busca em profundidade
-void BP(Grafo* g, int inicio, Lista* l){
+void BP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 	int j;
 	printf("%d ", inicio);
+	fprintf(file_out, "%d ", inicio);
 	visited[inicio] = 1;
 	for(j=0; j<g->numVertice; j++){
 		if(!visited[j]&&g->matrix[inicio][j]!=-1){
-			BP(g, j, l);
+			BP(g, j, l, file_out);
 		}
 	}
 }
 
-void passeioBP(Grafo* g, int inicio, Lista* l){
+void passeioBP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 	int j;
 	visited[inicio] = 1;
 	printf("\n");
+	fprintf(file_out, "\n");
 	push(l, inicio);
 	for(j=0; j<g->numVertice; j++){
 			push(l, j);
 			if(!visited[j]&&g->matrix[inicio][j]!=-1){
-			exibe_lista(l);
+			exibe_lista(l, file_out);
 			pop(l);
-			passeioBP(g, j, l);
+			passeioBP(g, j, l, file_out);
 		}
 		pop(l);
 	}
