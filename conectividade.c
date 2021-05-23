@@ -26,11 +26,12 @@ int main(){
    int num_vertices = string_auxiliar[0];
    int num_arestas = string_auxiliar[1];
 
-	//definindo vetores auxiliares
+	//definindo vetores auxiliares com 0
 	for(int aux=0; aux<num_vertices; aux++){
 		visited[aux] = 0;
 	}
 
+    //lista de vertices percorridos
 	Lista* l1 = inicia_lista();
 
     //declaracao do grafo
@@ -43,18 +44,25 @@ int main(){
 
 	printf("%d %d \n", g1->numVertice, g1->numAresta);
 	fprintf(file_out, "%d %d  \n", g1->numVertice, g1->numAresta);
+
+    //exibe grafico de acordo com a entrada
 	exibe(g1, file_out);
+
 	printf("\nBP:\n");
 	fprintf(file_out, "\nBP:\n");
+
+    //Busca em profundidade
 	BP(g1, 0, l1, file_out);
+
 	printf("\n\nCaminhos BP:\n");
 	fprintf(file_out, "\n\nCaminhos BP:");
 
-	//resetando vetor de visitados
+	//resetando vetor de visitados para zero novamente
 	for(int aux=0; aux<num_vertices; aux++){
 		visited[aux] = 0;
 	}
 
+    //passeio pelo grafo
 	passeioBP(g1, 0, l1, file_out);
 
     return 0;
@@ -75,6 +83,8 @@ void BP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 	}
 }
 
+
+//passeio; armazena os visitados numa lista ligada
 void passeioBP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 	int j;
 	visited[inicio] = 1;
@@ -93,10 +103,20 @@ void passeioBP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 }
 
 
-//busca em largura
+//busca em largura ta sendo pego em https://pt.wikipedia.org/wiki/Busca_em_largura
 void BL(Grafo* g, int inicio){
-	visited[inicio] = 1;
-	int arr_auxiliar[g->numVertice];
-	arr_auxiliar[inicio] = 1;
-	
+    int vertice1;
+    Lista* l = inicia_lista();
+    visited[0] = inicio;
+    push(l, inicio);
+
+    while(!lista_vazia(l)){
+        vertice1 = l->chave;
+        for(int i=0; i<g->numVertice; i++){
+            if(g->matrix[inicio][i]!=-1){
+                push(l, i);
+            }
+        }
+    }
+
 }

@@ -45,11 +45,20 @@ Lista* inicia_lista(){
     }
 
     //sentinela com chave invalida
-    head->chave = retorno;
+    head->chave = NULL;
     head->prox = NULL;
     return head;
 }
 
+bool lista_vazia(Lista* l){
+    if(!l->chave && l->prox==NULL){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//adiciona ao fim da lista
 void push(Lista* l, int chave){
     Lista* atual = l;
 
@@ -61,6 +70,8 @@ void push(Lista* l, int chave){
     atual->prox->prox = NULL;
 }
 
+
+//remove vertice do fim da lista
 void pop(Lista ** l) {
     Lista * atual = l;
     while (atual->prox->prox != NULL) {
