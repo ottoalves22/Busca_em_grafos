@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdbool.h>
 int visited[1000];
-int aux[100];
 
 
 int main(){
