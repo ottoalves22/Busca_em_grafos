@@ -50,7 +50,7 @@ Lista* inicia_lista(){
     return head;
 }
 
-void adiciona(Lista* l, int chave){
+void push(Lista* l, int chave){
     Lista* atual = l;
 
     while(atual->prox !=NULL){
@@ -59,6 +59,16 @@ void adiciona(Lista* l, int chave){
     atual->prox = (Lista*) malloc(sizeof(Lista));
     atual->prox->chave = chave;
     atual->prox->prox = NULL;
+}
+
+void pop(Lista ** l) {
+    Lista * atual = l;
+    while (atual->prox->prox != NULL) {
+        atual = atual->prox;
+    }
+
+    free(atual->prox);
+    atual->prox = NULL;
 }
 
 

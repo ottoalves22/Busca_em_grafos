@@ -49,7 +49,7 @@ int main(){
 	fprintf(file_out, "\nBP:\n");
 	BP(g1, 0, l1);
 	printf("\n\nCaminhos BP:\n");
-	fprintf(file_out, "\n\nCaminhos BP:\n");
+	fprintf(file_out, "\n\nCaminhos BP:");
 
 	//resetando vetor de visitados
 	for(int aux=0; aux<num_vertices; aux++){
@@ -78,13 +78,16 @@ void BP(Grafo* g, int inicio, Lista* l){
 void passeioBP(Grafo* g, int inicio, Lista* l){
 	int j;
 	visited[inicio] = 1;
-  	adiciona(l, inicio);
-    printf("\n");
-	exibe_lista(l);
+	printf("\n");
+	push(l, inicio);
 	for(j=0; j<g->numVertice; j++){
-		if(!visited[j]&&g->matrix[inicio][j]!=-1){
+			push(l, j);
+			if(!visited[j]&&g->matrix[inicio][j]!=-1){
+			exibe_lista(l);
+			pop(l);
 			passeioBP(g, j, l);
 		}
+		pop(l);
 	}
 }
 
