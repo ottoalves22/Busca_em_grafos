@@ -36,3 +36,37 @@ void exibe(Grafo* g, FILE* file_out){ //exibe no terminal todos os pesos, sendo 
         }
     }
 }
+
+Lista* inicia_lista(){
+    Lista* head = NULL;
+    head = (Lista*) malloc(sizeof(Lista));
+    if (head == NULL) {
+        return NULL;
+    }
+
+    //sentinela com chave invalida
+    head->chave = retorno;
+    head->prox = NULL;
+    return head;
+}
+
+void adiciona(Lista* l, int chave){
+    Lista* atual = l;
+
+    while(atual->prox !=NULL){
+        atual = atual->prox;
+    }
+    atual->prox = (Lista*) malloc(sizeof(Lista));
+    atual->prox->chave = chave;
+    atual->prox->prox = NULL;
+}
+
+
+void exibe_lista(Lista* l){
+    Lista* atual = l;
+    atual = atual->prox;
+    while (atual != NULL) {
+        printf("%d  ", atual->chave);
+        atual = atual->prox;
+    }
+}

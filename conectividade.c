@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-
-int visited[100];
+int visited[1000];
+int aux[100];
 
 
 int main(){
@@ -26,41 +26,64 @@ int main(){
    }
    int num_vertices = string_auxiliar[0];
    int num_arestas = string_auxiliar[1];
-	
+
+	//definindo vetores auxiliares
 	for(int aux=0; aux<num_vertices; aux++){
 		visited[aux] = 0;
 	}
 
+	Lista* l1 = inicia_lista();
+
+    //declaracao do grafo
 	Grafo* g1 = iniciaGrafo(num_vertices, num_arestas);
 
+    // insercao das arestas
     for(int y=2; y<j; y+=3){
         adjacencia(g1, string_auxiliar[y], string_auxiliar[y+1], string_auxiliar[y+2]);
     }
-	
+
 	printf("%d %d \n", g1->numVertice, g1->numAresta);
 	fprintf(file_out, "%d %d  \n", g1->numVertice, g1->numAresta);
 	exibe(g1, file_out);
 	printf("\nBP:\n");
 	fprintf(file_out, "\nBP:\n");
-	BP(g1, 0);
+	BP(g1, 0, l1);
 	printf("\n\nCaminhos BP:\n");
 	fprintf(file_out, "\n\nCaminhos BP:\n");
-	
-	
+
+	//resetando vetor de visitados
+	for(int aux=0; aux<num_vertices; aux++){
+		visited[aux] = 0;
+	}
+
+	passeioBP(g1, 0, l1);
+
     return 0;
 	
 }
 
 
 //busca em profundidade
-void BP(Grafo* g, int inicio){
+void BP(Grafo* g, int inicio, Lista* l){
 	int j;
 	printf("%d ", inicio);
 	visited[inicio] = 1;
-	
 	for(j=0; j<g->numVertice; j++){
 		if(!visited[j]&&g->matrix[inicio][j]!=-1){
-			BP(g, j);
+			BP(g, j, l);
+		}
+	}
+}
+
+void passeioBP(Grafo* g, int inicio, Lista* l){
+	int j;
+	visited[inicio] = 1;
+  	adiciona(l, inicio);
+    printf("\n");
+	exibe_lista(l);
+	for(j=0; j<g->numVertice; j++){
+		if(!visited[j]&&g->matrix[inicio][j]!=-1){
+			passeioBP(g, j, l);
 		}
 	}
 }

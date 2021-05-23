@@ -10,3 +10,7 @@ typedef struct Grafo{
     int matrix[100][100];
 }Grafo;
 
+typedef struct lista {
+    int chave;
+    struct lista * prox;
+} Lista;
