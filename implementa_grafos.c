@@ -27,7 +27,6 @@ void adjacencia(Grafo* g, int v1, int v2, int peso){
 void exibe(Grafo* g, FILE* file_out){ //exibe no terminal todos os pesos, sendo os INT_MAX as arestas não existentes
     int x, y;
     for(x=0; x<g->numVertice; x++){
-        printf("\n");
         for(y=0; y<g->numVertice; y++){
 		if(g->matrix[x][y]!=-1 && g->matrix[x][y] != retorno){
 				printf("%d %d %d\n", x, y, g->matrix[x][y]);

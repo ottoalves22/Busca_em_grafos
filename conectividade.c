@@ -9,7 +9,7 @@ int main(){
 	FILE *file;
 	file = fopen("entrada.txt", "r");
 	FILE* file_out;
-    file_out= fopen("saida.txt", "w");
+    file_out= fopen("saida2.txt", "w");
     int j=0;
     int i;
     int string_auxiliar[200];
@@ -48,13 +48,32 @@ int main(){
     //exibe grafico de acordo com a entrada
 	exibe(g1, file_out);
 
-	printf("\nBP:\n");
-	fprintf(file_out, "\nBP:\n");
+    printf("\nBL:\n");
+	fprintf(file_out, "\nBL:\n");
+    BL(g1, 0, file_out);
+
+    //resetando vetor de visitados para zero novamente
+	for(int aux=0; aux<num_vertices; aux++){
+		visited[aux] = 0;
+	}
+
+	printf("\n\nCaminhos BL:");
+	fprintf(file_out, "\n\nCaminhos BL:");
+
+    passeioBL(g1, 0, file_out);
+
+	//resetando vetor de visitados para zero novamente
+	for(int aux=0; aux<num_vertices; aux++){
+		visited[aux] = 0;
+	}
+
+	printf("\n\nBP:\n");
+	fprintf(file_out, "\n\nBP:\n");
 
     //Busca em profundidade
 	BP(g1, 0, l1, file_out);
 
-	printf("\n\nCaminhos BP:\n");
+	printf("\n\nCaminhos BP:");
 	fprintf(file_out, "\n\nCaminhos BP:");
 
 	//resetando vetor de visitados para zero novamente
@@ -64,18 +83,7 @@ int main(){
 
     //passeio pelo grafo
 	passeioBP(g1, 0, l1, file_out);
-
-	//resetando vetor de visitados para zero novamente
-	for(int aux=0; aux<num_vertices; aux++){
-		visited[aux] = 0;
-	}
-
-	printf("\n\nBusca em largura:\n");
-	fprintf(file_out, "\n\nBusca em largura:\n");
-    BL(g1, 0, file_out);
-
     return 0;
-	
 }
 
 
@@ -131,4 +139,27 @@ void BL(Grafo* g, int inicio, FILE* file_out){
         }
     }
 
+}
+
+
+
+void passeioBL(Grafo* g, int inicio, FILE* file_out){
+    Lista* l = inicia_lista();
+    push(l, inicio);
+    printf("\n%d", inicio);
+    fprintf(file_out, "\n%d ", inicio);
+    while(topo(l)!=retorno){ //enquanto o topo da lista nao for o sentinela
+        int aux = topo(l);
+
+        pop(l);
+        visited[aux] = 1;
+        for(int i=0; i<g->numVertice; i++){
+            if(g->matrix[aux][i]!=-1 && g->matrix[aux][i]!=retorno && !visited[i]){
+                push(l, i);
+            }
+        }
+        printf("\n%d  ", inicio);
+        fprintf(file_out, "\n%d ", inicio);
+        exibe_lista(l, file_out);
+    }
 }
