@@ -9,17 +9,17 @@ int main(){
 	FILE *file;
 	file = fopen("entrada.txt", "r");
 	FILE* file_out;
-    file_out= fopen("saida2.txt", "w");
+    file_out= fopen("saida.txt", "w");
     int j=0;
     int i;
     int string_auxiliar[200];
     if(file!=NULL){
 	    fscanf(file, "%d", &i);
-		while(!feof(file)){  
+		while(!feof(file)){
             string_auxiliar[j] = i;
-			(file, "%d", &i);
 			fscanf (file, "%d", &i);
-			j++;      
+			j++;
+			string_auxiliar[j] = i;
 		}
         fclose(file);
    }
