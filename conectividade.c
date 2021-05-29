@@ -65,6 +65,15 @@ int main(){
     //passeio pelo grafo
 	passeioBP(g1, 0, l1, file_out);
 
+	//resetando vetor de visitados para zero novamente
+	for(int aux=0; aux<num_vertices; aux++){
+		visited[aux] = 0;
+	}
+
+	printf("\n\nBusca em largura:\n");
+	fprintf(file_out, "\n\nBusca em largura:\n");
+    BL(g1, 0, file_out);
+
     return 0;
 	
 }
@@ -77,7 +86,7 @@ void BP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 	fprintf(file_out, "%d ", inicio);
 	visited[inicio] = 1;
 	for(j=0; j<g->numVertice; j++){
-		if(!visited[j]&&g->matrix[inicio][j]!=-1){
+		if(!visited[j] && g->matrix[inicio][j]!=-1){
 			BP(g, j, l, file_out);
 		}
 	}
@@ -93,7 +102,7 @@ void passeioBP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 	push(l, inicio);
 	for(j=0; j<g->numVertice; j++){
 			push(l, j);
-			if(!visited[j]&&g->matrix[inicio][j]!=-1){
+			if(!visited[j] && g->matrix[inicio][j]!=-1){
 			exibe_lista(l, file_out);
 			pop(l);
 			passeioBP(g, j, l, file_out);
@@ -104,16 +113,19 @@ void passeioBP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 
 
 //busca em largura ta sendo pego em https://pt.wikipedia.org/wiki/Busca_em_largura
-void BL(Grafo* g, int inicio){
-    int vertice1;
+void BL(Grafo* g, int inicio, FILE* file_out){
     Lista* l = inicia_lista();
-    visited[0] = inicio;
     push(l, inicio);
-
-    while(!lista_vazia(l)){
-        vertice1 = l->chave;
+    printf("%d ", inicio);
+	fprintf(file_out, "%d ", inicio);
+    while(topo(l)!=retorno){ //enquanto o topo da lista nao for o sentinela
+        int aux = topo(l);
+        pop(l);
+        visited[aux] = 1;
         for(int i=0; i<g->numVertice; i++){
-            if(g->matrix[inicio][i]!=-1){
+            if(g->matrix[aux][i]!=-1 && g->matrix[aux][i]!=retorno && !visited[i]){
+                printf("%d ", i);
+	            fprintf(file_out, "%d ", i);
                 push(l, i);
             }
         }

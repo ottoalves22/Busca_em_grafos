@@ -45,13 +45,13 @@ Lista* inicia_lista(){
     }
 
     //sentinela com chave invalida
-    head->chave = NULL;
+    head->chave = retorno; // a lista começa com um sentinela de chave 12261616 (variavel retorno)
     head->prox = NULL;
     return head;
 }
 
 bool lista_vazia(Lista* l){
-    if(!l->chave && l->prox==NULL){
+    if(l->chave==retorno && l->prox==NULL){
         return true;
     } else {
         return false;
@@ -68,6 +68,15 @@ void push(Lista* l, int chave){
     atual->prox = (Lista*) malloc(sizeof(Lista));
     atual->prox->chave = chave;
     atual->prox->prox = NULL;
+}
+
+
+int topo(Lista* l){
+    Lista * atual = l;
+    while (atual->prox != NULL) {
+        atual = atual->prox;
+    }
+    return atual->chave;
 }
 
 
