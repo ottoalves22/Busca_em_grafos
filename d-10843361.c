@@ -9,7 +9,7 @@
 typedef struct grafo{ //modelo para gráfico ("This is the construct")
     int numVertice; //número de vértices, definido inicialmente para criação da matriz 
     int numAresta; //número de arestas, incrementado a cada inserção de aresta pelo método adjacencia()
-    int matrix[200][200];//aponta para matriz onde matrix[v1][v2]=peso para no máximo 200 vértices ("Welcome to the desert of the real")
+    int matriz[200][200];//aponta para matriz onde matriz[v1][v2]=peso para no máximo 200 vértices ("Welcome to the desert of the real")
 }grafo;
 
 
@@ -18,18 +18,18 @@ grafo* iniciaGrafo(int nV, int nA){ //recebe número de nós
     grafo* g =(grafo *) malloc(sizeof(grafo)); //aloca espaço pro grafo
     g->numVertice = nV; //registra total de nós
     g->numAresta = nA; //registra total de arestas
-    g->matrix[nV][nV];//aloca matriz
+    g->matriz[nV][nV];//aloca matriz
     int x, y;
     for(x=0; x<nV; x++){
         for(y=0; y<nV; y++){
-            g->matrix[x][y] = -1; //inicia todas adjacencias com valor inválido
+            g->matriz[x][y] = -1; //inicia todas adjacencias com valor inválido
         }
     }
     return g;
 };
 
 void adjacencia(grafo* g, int v1, int v2, int peso){
-    g->matrix[v1][v2] = peso; //adiciona o peso da aresta entre v1 e v2
+    g->matriz[v1][v2] = peso; //adiciona o peso da aresta entre v1 e v2
 }
 
 void exibe(grafo* g){ //exibe no terminal todos os pesos, sendo os INT_MAX as arestas não existentes
@@ -37,7 +37,7 @@ void exibe(grafo* g){ //exibe no terminal todos os pesos, sendo os INT_MAX as ar
     for(x=0; x<g->numVertice; x++){
         printf(" \n ");
         for(y=0; y<g->numVertice; y++){
-            printf ("%i\t ", g->matrix[x][y]);     
+            printf ("%i\t ", g->matriz[x][y]);
         }
     }
 }
@@ -47,7 +47,7 @@ int exibeArvore(int antecessor[], grafo* g, FILE* file_out, int valor)
     fprintf(file_out, "%d \n", valor);
     int i;
 for (i = 1; i < g->numVertice; i++) 
-    printf("%d ==> %d peso: \t%d \n", antecessor[i], i, g->matrix[i][i]);  
+    printf("%d ==> %d peso: \t%d \n", antecessor[i], i, g->matriz[i][i]);
     for(i = 1; i < g->numVertice; i++){
         fprintf(file_out, "%d %d  \n", antecessor[i], i);
 }
@@ -67,8 +67,8 @@ int* prim(grafo* g, FILE* file_out){
     for(i=0; i<g->numVertice; i++){
         visitados[i] = -1;
         for(j=0; j<g->numVertice; j++){
-            if(g->matrix[i][j] == -1)
-            g->matrix[i][j] = infinito;
+            if(g->matriz[i][j] == -1)
+            g->matriz[i][j] = infinito;
         }
     }
 
@@ -76,9 +76,9 @@ int* prim(grafo* g, FILE* file_out){
     while(aux < (g->numVertice)){
         for(i=0; i<=(g->numVertice); i++){
             for(j=0; j<=(g->numVertice); j++){
-                if(g->matrix[i][j]<infinito){
+                if(g->matriz[i][j]<infinito){
                     if(visitados[i] != -1){
-                        custoMinimo = g->matrix[i][j];
+                        custoMinimo = g->matriz[i][j];
                         v1 = aux1 = i;
                         v2 = aux2 = j;
                     }

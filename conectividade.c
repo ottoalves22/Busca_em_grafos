@@ -73,16 +73,20 @@ int main(){
     //Busca em profundidade
 	BP(g1, 0, l1, file_out);
 
-	printf("\n\nCaminhos BP:");
-	fprintf(file_out, "\n\nCaminhos BP:");
-
 	//resetando vetor de visitados para zero novamente
 	for(int aux=0; aux<num_vertices; aux++){
 		visited[aux] = 0;
 	}
 
+    printf("\n\nCaminhos BP:");
+	fprintf(file_out, "\n\nCaminhos BP:");
     //passeio pelo grafo
 	passeioBP(g1, 0, l1, file_out);
+
+    printf("\nComponentes conexos:");
+	fprintf(file_out, "\nComponentes conexos:");
+	componentes_conexos(g1, file_out);
+
     return 0;
 }
 
@@ -94,7 +98,7 @@ void BP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 	fprintf(file_out, "%d ", inicio);
 	visited[inicio] = 1;
 	for(j=0; j<g->numVertice; j++){
-		if(!visited[j] && g->matrix[inicio][j]!=-1){
+		if(!visited[j] && g->matriz[inicio][j]!=-1){
 			BP(g, j, l, file_out);
 		}
 	}
@@ -110,7 +114,7 @@ void passeioBP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 	push(l, inicio);
 	for(j=0; j<g->numVertice; j++){
 			push(l, j);
-			if(!visited[j] && g->matrix[inicio][j]!=-1){
+			if(!visited[j] && g->matriz[inicio][j]!=-1){
 			exibe_lista(l, file_out);
 			pop(l);
 			passeioBP(g, j, l, file_out);
@@ -131,7 +135,7 @@ void BL(Grafo* g, int inicio, FILE* file_out){
         pop(l);
         visited[aux] = 1;
         for(int i=0; i<g->numVertice; i++){
-            if(g->matrix[aux][i]!=-1 && g->matrix[aux][i]!=retorno && !visited[i]){
+            if(g->matriz[aux][i]!=-1 && g->matriz[aux][i]!=retorno && !visited[i]){
                 printf("%d ", i);
 	            fprintf(file_out, "%d ", i);
                 push(l, i);
@@ -154,7 +158,8 @@ void passeioBL(Grafo* g, int inicio, FILE* file_out){
         pop(l);
         visited[aux] = 1;
         for(int i=0; i<g->numVertice; i++){
-            if(g->matrix[aux][i]!=-1 && g->matrix[aux][i]!=retorno && !visited[i]){
+            if(g->matriz[aux][i]!=-1 && g->matriz[aux][i]!=retorno && !visited[i]){
+            //printf("%d ", aux);
                 push(l, i);
             }
         }

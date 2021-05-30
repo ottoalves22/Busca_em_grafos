@@ -5,32 +5,39 @@
 #define retorno 12261616 //define aresta 1,3 a partir da aresta 3,1, por exemplo
 
 Grafo* iniciaGrafo(int nV, int nA){ //recebe número de nós
-    if(nV<0) return NULL;
-    Grafo* g =(Grafo *) malloc(sizeof(Grafo)); 
-    g->numVertice = nV; 
-    g->numAresta = nA; 
-    g->matrix[nV][nV];
+    if(nV<=0) {
+        printf("O numero de vertices deve ser maior que zero\n");
+    }
+    Grafo* g =(Grafo *) malloc(sizeof(Grafo));
+    g->numVertice = nV;
+    g->numAresta = nA;
+    g->matriz[nV][nV];
     int x, y;
     for(x=0; x<nV; x++){
         for(y=0; y<nV; y++){
-            g->matrix[x][y] = -1; 
+            g->matriz[x][y] = -1;
         }
     }
     return g;
 }
 
 void adjacencia(Grafo* g, int v1, int v2, int peso){
-    g->matrix[v1][v2] = peso;
-    g->matrix[v2][v1] = retorno;
+    if(v1 >= g->numVertice || v2 >= g->numVertice){
+        printf("As adjacencias devem ser formadas entre vertices existentes: aresta %d %d não foi adicionada \n", v1, v2);
+        return;
+    } else {
+        g->matriz[v1][v2] = peso;
+        g->matriz[v2][v1] = retorno;
+    }
 }
 
 void exibe(Grafo* g, FILE* file_out){ //exibe no terminal todos os pesos, sendo os INT_MAX as arestas não existentes
     int x, y;
     for(x=0; x<g->numVertice; x++){
         for(y=0; y<g->numVertice; y++){
-		if(g->matrix[x][y]!=-1 && g->matrix[x][y] != retorno){
-				printf("%d %d %d\n", x, y, g->matrix[x][y]);
-				fprintf(file_out, "%d %d %d\n", x, y, g->matrix[x][y]);
+		if(g->matriz[x][y]!=-1 && g->matriz[x][y] != retorno){
+				printf("%d %d %d\n", x, y, g->matriz[x][y]);
+				fprintf(file_out, "%d %d %d\n", x, y, g->matriz[x][y]);
 			}
         }
     }
@@ -98,5 +105,27 @@ void exibe_lista(Lista* l, FILE* file_out){
         printf("%d  ", atual->chave);
         fprintf(file_out, "%d ", atual->chave);
         atual = atual->prox;
+    }
+}
+
+
+void componentes_conexos(Grafo* g1, FILE* file_out){
+    printf("\nC1: ");
+    fprintf(file_out, "\nC1: ");
+    int aux[g1->numVertice];
+    for(int i=0; i<g1->numVertice; i++){
+        for(int j=0; j<g1->numVertice; j++){
+            if(i!=j){
+                if(g1->matriz[i][j]!=-1 && g1->matriz[j][i]!=-1){
+                    aux[i] = 1;
+                }
+            }
+        }
+    }
+    for(int x=0; x<g1->numVertice; x++){
+        if(aux[x]==1){
+            printf("%d ", x);
+            fprintf(file_out, "%d ", x);
+        }
     }
 }

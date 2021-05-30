@@ -7,7 +7,7 @@
 typedef struct Grafo{ 
     int numVertice; 
     int numAresta; 
-    int matrix[100][100];
+    int matriz[100][100];
 }Grafo;
 
 typedef struct lista {
