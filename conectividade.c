@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-int visited[1000];
+int visitado[1000];
+int profundidade[1000];
 
 
 int main(){
@@ -28,7 +29,7 @@ int main(){
 
 	//definindo vetores auxiliares com 0
 	for(int aux=0; aux<num_vertices; aux++){
-		visited[aux] = 0;
+		visitado[aux] = 0;
 	}
 
     //lista de vertices percorridos
@@ -54,7 +55,7 @@ int main(){
 
     //resetando vetor de visitados para zero novamente
 	for(int aux=0; aux<num_vertices; aux++){
-		visited[aux] = 0;
+		visitado[aux] = 0;
 	}
 
 	printf("\n\nCaminhos BL:");
@@ -64,7 +65,7 @@ int main(){
 
 	//resetando vetor de visitados para zero novamente
 	for(int aux=0; aux<num_vertices; aux++){
-		visited[aux] = 0;
+		visitado[aux] = 0;
 	}
 
 	printf("\n\nBP:\n");
@@ -75,7 +76,7 @@ int main(){
 
 	//resetando vetor de visitados para zero novamente
 	for(int aux=0; aux<num_vertices; aux++){
-		visited[aux] = 0;
+		visitado[aux] = 0;
 	}
 
     printf("\n\nCaminhos BP:");
@@ -87,6 +88,18 @@ int main(){
 	fprintf(file_out, "\nComponentes conexos:");
 	componentes_conexos(g1, file_out);
 
+
+    printf("\n\nVertices de articulacao:");
+	fprintf(file_out, "\n\nVertices de articulacao:");
+
+	vertices_articulacao(g1);
+
+	for(int aux=0; aux<num_vertices; aux++){
+		visitado[aux] = 0;
+		profundidade[aux] = 0;
+	}
+
+
     return 0;
 }
 
@@ -96,9 +109,9 @@ void BP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 	int j;
 	printf("%d ", inicio);
 	fprintf(file_out, "%d ", inicio);
-	visited[inicio] = 1;
+	visitado[inicio] = 1;
 	for(j=0; j<g->numVertice; j++){
-		if(!visited[j] && g->matriz[inicio][j]!=-1){
+		if(!visitado[j] && g->matriz[inicio][j]!=-1){
 			BP(g, j, l, file_out);
 		}
 	}
@@ -108,13 +121,13 @@ void BP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 //passeio; armazena os visitados numa lista ligada
 void passeioBP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 	int j;
-	visited[inicio] = 1;
+	visitado[inicio] = 1;
 	printf("\n");
 	fprintf(file_out, "\n");
 	push(l, inicio);
 	for(j=0; j<g->numVertice; j++){
 			push(l, j);
-			if(!visited[j] && g->matriz[inicio][j]!=-1){
+			if(!visitado[j] && g->matriz[inicio][j]!=-1){
 			exibe_lista(l, file_out);
 			pop(l);
 			passeioBP(g, j, l, file_out);
@@ -133,9 +146,9 @@ void BL(Grafo* g, int inicio, FILE* file_out){
     while(topo(l)!=retorno){ //enquanto o topo da lista nao for o sentinela
         int aux = topo(l);
         pop(l);
-        visited[aux] = 1;
+        visitado[aux] = 1;
         for(int i=0; i<g->numVertice; i++){
-            if(g->matriz[aux][i]!=-1 && g->matriz[aux][i]!=retorno && !visited[i]){
+            if(g->matriz[aux][i]!=-1 && g->matriz[aux][i]!=retorno && !visitado[i]){
                 printf("%d ", i);
 	            fprintf(file_out, "%d ", i);
                 push(l, i);
@@ -144,7 +157,6 @@ void BL(Grafo* g, int inicio, FILE* file_out){
     }
 
 }
-
 
 
 void passeioBL(Grafo* g, int inicio, FILE* file_out){
@@ -156,10 +168,9 @@ void passeioBL(Grafo* g, int inicio, FILE* file_out){
         int aux = topo(l);
 
         pop(l);
-        visited[aux] = 1;
+        visitado[aux] = 1;
         for(int i=0; i<g->numVertice; i++){
-            if(g->matriz[aux][i]!=-1 && g->matriz[aux][i]!=retorno && !visited[i]){
-            //printf("%d ", aux);
+            if(g->matriz[aux][i]!=-1 && g->matriz[aux][i]!=retorno && !visitado[i]){
                 push(l, i);
             }
         }

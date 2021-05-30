@@ -129,3 +129,7 @@ void componentes_conexos(Grafo* g1, FILE* file_out){
         }
     }
 }
+
+
+void vertices_articulacao(Grafo* g1){
+}
