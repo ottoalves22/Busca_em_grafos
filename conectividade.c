@@ -2,8 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-int visitado[1000];
-int profundidade[1000];
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+int visitado[200];
+int profundidade[200];
+int conexao[200];
+int antecessor[200];
+int nivel[200];
+int descoberto[200];
+int contador_nivel;
 
 
 int main(){
@@ -61,7 +67,7 @@ int main(){
 	printf("\n\nCaminhos BL:");
 	fprintf(file_out, "\n\nCaminhos BL:");
 
-    passeioBL(g1, 0, file_out);
+    passeioBL(g1, 10, file_out);
 
 	//resetando vetor de visitados para zero novamente
 	for(int aux=0; aux<num_vertices; aux++){
@@ -92,12 +98,23 @@ int main(){
     printf("\n\nVertices de articulacao:");
 	fprintf(file_out, "\n\nVertices de articulacao:");
 
-	vertices_articulacao(g1);
+	//vertices_articulacao(g1);
 
 	for(int aux=0; aux<num_vertices; aux++){
 		visitado[aux] = 0;
 		profundidade[aux] = 0;
+		conexao[aux] = 0;
+		antecessor[aux] = -1;
+		nivel[aux] = 0;
+		descoberto[aux] = -1;
 	}
+
+	contador_nivel = 0;
+
+	Lista* lista_aux = inicia_lista();
+
+	bp_aux(g1, 0, lista_aux, file_out);
+
 
 
     return 0;
@@ -111,7 +128,7 @@ void BP(Grafo* g, int inicio, Lista* l, FILE* file_out){
 	fprintf(file_out, "%d ", inicio);
 	visitado[inicio] = 1;
 	for(j=0; j<g->numVertice; j++){
-		if(!visitado[j] && g->matriz[inicio][j]!=-1){
+		if(!visitado[j] && g->matriz[j][inicio]!=-1){
 			BP(g, j, l, file_out);
 		}
 	}
@@ -178,4 +195,35 @@ void passeioBL(Grafo* g, int inicio, FILE* file_out){
         fprintf(file_out, "\n%d ", inicio);
         exibe_lista(l, file_out);
     }
+}
+
+
+void bp_aux(Grafo* g, int inicio, Lista* l, FILE* file_out){
+	int j;
+	visitado[inicio] = 1;
+	push(l, inicio);
+	++contador_nivel;
+	nivel[inicio] = contador_nivel;
+	descoberto[inicio] = contador_nivel;
+	int filho = 0;
+	for(j=0; j<g->numVertice; j++){
+			push(l, j);
+			if(!visitado[j] && g->matriz[inicio][j]!=-1){
+				filho++;
+				antecessor[j] = inicio;
+				bp_aux(g, j, l, file_out);
+				nivel[inicio] = MIN(nivel[inicio], nivel[j]);
+				if(antecessor[inicio]!=-1 && nivel[j]>=descoberto[inicio]){
+					conexao[inicio] = 1;
+					printf("%d ", j);
+				}
+				if(antecessor[inicio]==-1 && filho>1){
+					conexao[inicio] = 1;
+					printf("%d ", j);
+				}
+		}
+		else if(j!=antecessor[inicio]){
+			nivel[inicio] = MIN(nivel[inicio], descoberto[j]);
+		}
+	}
 }

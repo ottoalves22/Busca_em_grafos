@@ -124,12 +124,8 @@ void componentes_conexos(Grafo* g1, FILE* file_out){
     }
     for(int x=0; x<g1->numVertice; x++){
         if(aux[x]==1){
-            printf("%d ", x);
-            fprintf(file_out, "%d ", x);
+            //printf("%d ", x);
+            //fprintf(file_out, "%d ", x);
         }
     }
-}
-
-
-void vertices_articulacao(Grafo* g1){
 }
