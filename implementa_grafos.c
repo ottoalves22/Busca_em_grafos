@@ -155,8 +155,15 @@ void componentes_conextos(Grafo* g1, FILE* file_out){
 
   for(int i=0; i<g1->numVertice; i++){
     if(visitados[i]==0){
-      printf("%d ", i);
-      BP_auxiliar(g1, i, file_out);
+      struct Aresta* temp = g1->lista_adjacencia[i];
+
+      printf("\n");
+      BP_auxiliar(g1, i, visitados);
+      while (temp) {
+          printf("%d ", temp->vertice);
+
+        temp = temp->prox;
+      }
     }
   }
 
