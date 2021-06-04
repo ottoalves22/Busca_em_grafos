@@ -131,5 +131,37 @@ void BP(Grafo* g1, int inicio, FILE* file_out){
   }
 }
 
+void BP_auxiliar(Grafo* g1, int inicio, int visitados[]){
+  Aresta* listaAdjacenciaInicio = g1->lista_adjacencia[inicio];
+  Aresta* aux = listaAdjacenciaInicio;
+
+  visitados[inicio] = 1;
+  while(aux!=NULL){
+    int vertice_conexo = aux->vertice;
+    if(visitados[vertice_conexo]==0){
+      BP_auxiliar(g1, vertice_conexo, visitados);
+    }
+    aux = aux->prox;
+  }
+}
+
+//componentes conectados
+void componentes_conextos(Grafo* g1, FILE* file_out){
+  int visitados[g1->numVertice];
+  printf("\n");
+  for(int i=0; i<g1->numVertice; i++){
+    visitados[i] = 0;
+  }
+
+  for(int i=0; i<g1->numVertice; i++){
+    if(visitados[i]==0){
+      printf("%d ", i);
+      BP_auxiliar(g1, i, file_out);
+    }
+  }
+
+
+}
+
 
 //Busca em largura

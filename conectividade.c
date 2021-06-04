@@ -52,8 +52,10 @@ int main(){
   printf("\n\nCaminhos BP:");
 	fprintf(file_out, "\n\nCaminhos BP:");
 
-  printf("\nComponentes conexos:");
-	fprintf(file_out, "\nComponentes conexos:");
+  printf("\nComponentes Conectados:");
+	fprintf(file_out, "\nComponentes Conectados:");
+
+	componentes_conextos(g1, file_out);
 
   printf("\n\nVertices de articulacao:");
 	fprintf(file_out, "\n\nVertices de articulacao:");
