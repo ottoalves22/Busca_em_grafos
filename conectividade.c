@@ -119,6 +119,7 @@ int main(){
 	for(int i=0; i<g1->numVertice; i++){
 		if(g1->visitados[i]==0){
 			printf("\nC%d: ", contador_aux);
+			fprintf(file_out, "\nC%d: ", contador_aux);
 			componentes_conextos(g1, i, file_out);
 			contador_aux++;
 		}

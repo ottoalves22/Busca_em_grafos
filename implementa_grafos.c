@@ -194,9 +194,12 @@ void passeioBL(Grafo* g1, int inicio, FILE* file_out){
   while(!fila_vazia(f1)){
     int vertice_atual = pop(f1);
     printf("\n");
+    fprintf(file_out, "\n");
     for(int i=0; i<100; i++){
       if(f1->itens[i]!=-1){
         printf("%d ", f1->itens[i]);
+        fprintf(file_out, "%d ", f1->itens[i]);
+
       }
     }
     //fprintf(file_out, "%d ", vertice_atual);
@@ -221,7 +224,7 @@ void componentes_conextos(Grafo* g, int inicio, FILE* file_out){
 
   g1->visitados[inicio] = 1;
   printf("%d ", inicio);
-
+  fprintf(file_out, "%d ", inicio);
   while(aux!=NULL){
     int vertice_conexo = aux->vertice;
     if(g1->visitados[vertice_conexo]==0){
