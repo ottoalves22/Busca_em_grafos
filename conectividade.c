@@ -132,5 +132,7 @@ int main(){
   printf("\n\nVertices de articulacao:\n");
 	fprintf(file_out, "\n\nVertices de articulacao:\n");
 
+	articulacao(g1);
+
     return 0;
 }

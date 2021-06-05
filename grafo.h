@@ -10,6 +10,7 @@ typedef struct Grafo{
   int numAresta;
   int* visitados;
   struct Aresta** lista_adjacencia;
+  int tempo;
 }Grafo;
 
 

@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "grafo.h"
-# define retorno 12616161
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+#define retorno 12616161
 
 Grafo* cria_grafo(int vertices, int arestas){
   Grafo* g1 = malloc(sizeof(Grafo));
@@ -15,6 +16,7 @@ Grafo* cria_grafo(int vertices, int arestas){
     g1->lista_adjacencia[i] = NULL;
     g1->visitados[i] = 0;
   }
+  g1->tempo = 0;
 
   return g1;
 }
@@ -202,7 +204,6 @@ void passeioBL(Grafo* g1, int inicio, FILE* file_out){
 
       }
     }
-    //fprintf(file_out, "%d ", vertice_atual);
     Aresta* aresta_auxiliar = g1->lista_adjacencia[vertice_atual];
     while(aresta_auxiliar){
       int vert_adj = aresta_auxiliar->vertice;
@@ -232,4 +233,68 @@ void componentes_conextos(Grafo* g, int inicio, FILE* file_out){
     }
     aux = aux->prox;
   }
+}
+
+
+void articulacao_aux(Grafo* g1, int inicio, int descobertos[], int nivel[], int antecessor[], int articulacoes[]){
+  int i = 0;
+  int filhos = 0;
+  g1->visitados[inicio] = 1;
+  descobertos[inicio] = ++(g1->tempo);
+  nivel[inicio] = ++(g1->tempo);
+
+  Aresta* listaAdjacenciaInicio = g1->lista_adjacencia[inicio];
+  Aresta* aux = listaAdjacenciaInicio;
+
+  while(aux!=NULL){
+
+    if(!g1->visitados[i]){
+      filhos++;
+      antecessor[i] = inicio;
+      articulacao_aux(g1, i, descobertos, nivel, antecessor, articulacoes);
+
+      nivel[inicio] = MIN(nivel[inicio], nivel[i]);
+
+      if(antecessor[inicio]!=NULL && nivel[i] >= descobertos[inicio]){
+        articulacoes[inicio] = 1;
+      }
+
+      if(filhos > 1 && antecessor[inicio]==NULL){
+        articulacoes[inicio] = 1;
+      }
+    }
+    else if(i != antecessor[inicio]){
+      nivel[inicio] = MIN(nivel[inicio], descobertos[i]);
+    }
+
+    i++;
+    aux = aux->prox;
+  }
+}
+
+
+void articulacao(Grafo* g1){
+  int descobertos[g1->numVertice];
+  int nivel[g1->numVertice];
+  int antecessor[g1->numVertice];
+  int articulacoes[g1->numVertice];
+
+  for(int i=0; i<g1->numVertice; i++){
+    antecessor[g1->numVertice] = NULL;
+    articulacoes[g1->numVertice] = 0;
+  }
+
+  for(int i=0; i<g1->numVertice; i++){
+    if(!g1->visitados[i]){
+      articulacao_aux(g1, i, descobertos, nivel, antecessor, articulacoes);
+    }
+  }
+
+  for(int i=0; i<g1->numVertice; i++){
+    if(articulacoes[i]==1){
+      printf("%d ", i);
+    }
+  }
+  printf("\n");
+
 }
