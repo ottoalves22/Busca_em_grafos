@@ -41,6 +41,21 @@ int main(){
   printf("\nBL:\n");
 	fprintf(file_out, "\nBL:\n");
 
+	BL(g1, 0, file_out);
+
+	//encontra desconexos
+	for(int i=0; i<g1->numVertice; i++){
+		if(g1->visitados[i]==0){
+			BL(g1, i, file_out);
+			break;
+		}
+  }
+
+	//reseta visitados
+	for(int i=0; i<g1->numVertice; i++){
+      g1->visitados[i] = 0;
+  }
+
 	printf("\n\nCaminhos BL:");
 	fprintf(file_out, "\n\nCaminhos BL:");
 
@@ -49,13 +64,30 @@ int main(){
 
 	BP(g1, 0, file_out);
 
-  printf("\n\nCaminhos BP:");
-	fprintf(file_out, "\n\nCaminhos BP:");
+	//encontra desconexos
+	for(int i=0; i<g1->numVertice; i++){
+		if(g1->visitados[i]==0){
+			BP(g1, i, file_out);
+			break;
+		}
+  }
+
+	//reseta visitados
+	for(int i=0; i<g1->numVertice; i++){
+      g1->visitados[i] = 0;
+  }
+
+  printf("\n\nCaminhos BP:\n");
+	fprintf(file_out, "\n\nCaminhos BP:\n");
 
   printf("\nComponentes Conectados:");
 	fprintf(file_out, "\nComponentes Conectados:");
 
-	componentes_conextos(g1, file_out);
+	//componentes_conextos(g1, file_out);
+
+	for(int i=0; i<g1->numVertice; i++){
+      g1->visitados[i] = 0;
+  }
 
   printf("\n\nVertices de articulacao:");
 	fprintf(file_out, "\n\nVertices de articulacao:");

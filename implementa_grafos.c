@@ -80,7 +80,7 @@ void push(Fila* f1, int valor){
     if(f1->prox==-1){
       f1->prox = 0;
     }
-    f1->ant = f1->ant + 1;
+    f1->ant++;
     f1->itens[f1->ant] = valor;
   }
 }
@@ -90,6 +90,7 @@ int pop(Fila* f1){
   int item;
   if(fila_vazia(f1)){
     item = -1;
+    printf("fila vazia\n");
   }
   else {
     item = f1->itens[f1->prox];
@@ -131,6 +132,7 @@ void BP(Grafo* g1, int inicio, FILE* file_out){
   }
 }
 
+
 void BP_auxiliar(Grafo* g1, int inicio, int visitados[]){
   Aresta* listaAdjacenciaInicio = g1->lista_adjacencia[inicio];
   Aresta* aux = listaAdjacenciaInicio;
@@ -144,6 +146,7 @@ void BP_auxiliar(Grafo* g1, int inicio, int visitados[]){
     aux = aux->prox;
   }
 }
+
 
 //componentes conectados
 void componentes_conextos(Grafo* g1, FILE* file_out){
@@ -166,9 +169,35 @@ void componentes_conextos(Grafo* g1, FILE* file_out){
       }
     }
   }
-
-
 }
 
 
 //Busca em largura
+void BL(Grafo* g1, int inicio, FILE* file_out){
+  Fila* f1 = cria_fila();
+
+  //reseta visitados
+  for(int i=0; i<g1->numVertice; i++){
+      g1->visitados[i] = 0;
+  }
+
+  g1->visitados[inicio] = 1;
+  push(f1, inicio);
+
+  while(!fila_vazia(f1)){
+    //exibe_fila(f1);
+    int vertice_atual = pop(f1);
+    printf("%d ", vertice_atual);
+    fprintf(file_out, "%d ", vertice_atual);
+    Aresta* aresta_auxiliar = g1->lista_adjacencia[vertice_atual];
+    while(aresta_auxiliar){
+      int vert_adj = aresta_auxiliar->vertice;
+
+      if(g1->visitados[vert_adj]==0){
+        g1->visitados[vert_adj] = 1;
+        push(f1, vert_adj);
+      }
+      aresta_auxiliar = aresta_auxiliar->prox;
+    }
+  }
+}
