@@ -59,6 +59,18 @@ int main(){
 	printf("\n\nCaminhos BL:");
 	fprintf(file_out, "\n\nCaminhos BL:");
 
+	passeioBL(g1, 0, file_out);
+
+	for(int i=0; i<g1->numVertice; i++){
+		if(g1->visitados[i]==0){
+			passeioBL(g1, i, file_out);
+		}
+  }
+
+	for(int i=0; i<g1->numVertice; i++){
+      g1->visitados[i] = 0;
+  }
+
 	printf("\n\nBP:\n");
 	fprintf(file_out, "\n\nBP:\n");
 
@@ -68,7 +80,6 @@ int main(){
 	for(int i=0; i<g1->numVertice; i++){
 		if(g1->visitados[i]==0){
 			BP(g1, i, file_out);
-			break;
 		}
   }
 
@@ -77,20 +88,48 @@ int main(){
       g1->visitados[i] = 0;
   }
 
-  printf("\n\nCaminhos BP:\n");
-	fprintf(file_out, "\n\nCaminhos BP:\n");
+  printf("\n\nCaminhos BP:");
+	fprintf(file_out, "\n\nCaminhos BP:");
 
-  printf("\nComponentes Conectados:");
-	fprintf(file_out, "\nComponentes Conectados:");
+	Fila* fila_aux = cria_fila();
 
-	//componentes_conextos(g1, file_out);
+	passeioBP(g1, 0, file_out, fila_aux);
+
+	for(int i=0; i<100; i++){
+    fila_aux->itens[i] = -1;
+  }
+
+	//encontra desconexos
+	for(int i=0; i<g1->numVertice; i++){
+		if(g1->visitados[i]==0){
+			printf("\n");
+			passeioBP(g1, i, file_out, fila_aux);
+		}
+  }
 
 	for(int i=0; i<g1->numVertice; i++){
       g1->visitados[i] = 0;
   }
 
-  printf("\n\nVertices de articulacao:");
-	fprintf(file_out, "\n\nVertices de articulacao:");
+  printf("\n\nComponentes Conectados:");
+	fprintf(file_out, "\n\nComponentes Conectados:");
+
+	int contador_aux = 1;
+
+	for(int i=0; i<g1->numVertice; i++){
+		if(g1->visitados[i]==0){
+			printf("\nC%d: ", contador_aux);
+			componentes_conextos(g1, i, file_out);
+			contador_aux++;
+		}
+  }
+
+	for(int i=0; i<g1->numVertice; i++){
+      g1->visitados[i] = 0;
+  }
+
+  printf("\n\nVertices de articulacao:\n");
+	fprintf(file_out, "\n\nVertices de articulacao:\n");
 
     return 0;
 }

@@ -18,3 +18,9 @@ typedef struct Fila {
     int prox; //sucessor
     int ant; //anterior
 } Fila;
+
+
+typedef struct Lista{
+  int valor;
+  struct Lista* prox;
+} Lista;
